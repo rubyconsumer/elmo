@@ -14,6 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with ELMO.  If not, see <http://www.gnu.org/licenses/>.
 # 
+require 'rubygems'
+require 'RMagick'
+
 class PlacesController < ApplicationController
   
   def index
@@ -93,5 +96,8 @@ class PlacesController < ApplicationController
     end
     def set_js
       @js << 'places'
+    end
+    def generate_image
+    
     end
 end
