@@ -16,6 +16,7 @@
 # 
 require 'rubygems'
 require 'RMagick'
+include Magick
 
 class PlacesController < ApplicationController
   
@@ -59,6 +60,9 @@ class PlacesController < ApplicationController
       render(:action => :edit)
     end
   end
+  def show
+    @place = Place.find(params[:id])
+  end
   def create
     @place = Place.new(params[:place])
     if @place.save
@@ -90,14 +94,16 @@ class PlacesController < ApplicationController
     # render results partial
     render(:partial => "lookup_results", :locals => {:obj => @dummy, :ajax => true})
   end
+  def generate_image
+      f = Image.new(100,100) { self.background_color = "red" }
+      f.display
+      exit
+  end
   private
     def set_add_title
       @title = "Add Place: Manual"
     end
     def set_js
       @js << 'places'
-    end
-    def generate_image
-    
     end
 end
