@@ -1,12 +1,13 @@
+require 'RMagick'
 require 'rubygems'
-include Magick
 
 class ImagesController < ApplicationController
+  caches_page :index, :new
 
   # GET /images
   # GET /images.json
   def index
-    @images = Image.all
+    @images = Image.find(:all,:limit =>20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,7 +29,7 @@ class ImagesController < ApplicationController
   # GET /images/new
   # GET /images/new.json
   def new
-    generate_image
+    generate_image('blue',0.75)
     @image = Image.new
 
     respond_to do |format|
@@ -56,6 +57,7 @@ class ImagesController < ApplicationController
         format.json { render :json=> @image.errors, :status=> :unprocessable_entity }
       end
     end
+    expire_page :action => :index
   end
 
   # PUT /images/1
@@ -85,9 +87,21 @@ class ImagesController < ApplicationController
       format.json { head :ok }
     end
  end
- def generate_image
-    f = Image.new(100,100) { self.background_color = "red" }
-    f.display
+ def generate_image(color,opacity)
+    canvas = Magick::ImageList.new
+    canvas.new_image(250,250,Magick::HatchFill.new('white','gray90'))
+    circle = Magick::Draw.new
+    circle.stroke(color)
+    circle.fill_opacity(0)
+    circle.stroke_opacity(opacity)
+    circle.stroke_width(3)
+    circle.stroke_linecap('round')
+    circle.stroke_linejoin('round')
+    circle.ellipse(canvas.rows/2,canvas.columns/2,80,80,0,315)
+    circle.polyline(180,70, 173,78, 190,78, 191,62)
+    circle.draw(canvas)
+    canvas.write(color+".gif")
+    canvas.display
     exit
  end
 
