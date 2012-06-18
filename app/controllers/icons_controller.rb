@@ -17,7 +17,7 @@ class IconsController < ApplicationController
   def generate_image(color)
     file_path = "tmp/icons/"+color+".png"
     if !FileTest.exists?(file_path)
-      marker = Magick::Image.read("tmp/icons/marker.png")
+      marker = Magick::Image.read("public/images/icons/marker.png")
       colored = marker[0].color_floodfill(5, 5, color)     
       colored.write(file_path)
     end                     
