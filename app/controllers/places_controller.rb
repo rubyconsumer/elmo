@@ -15,7 +15,7 @@
 # along with ELMO.  If not, see <http://www.gnu.org/licenses/>.
 # 
 class PlacesController < ApplicationController
-
+  
   def index
     @places = load_objects_with_subindex(Place)
   end
