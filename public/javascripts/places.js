@@ -12,5 +12,3 @@ function show_place_lookup_form() {
   $('#place_lookup_form').show();
   try {$('#place_lookup_instructions').show();} catch (e) {}
 }
-
-               
