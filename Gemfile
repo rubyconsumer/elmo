@@ -10,6 +10,7 @@ gem 'libxml-ruby'
 gem 'fastercsv'
 gem 'yard'
 gem 'rdiscount'
+gem 'rmagick'
 
 gem 'jquery-rails'
 

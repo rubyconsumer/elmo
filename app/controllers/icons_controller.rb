@@ -1,8 +1,3 @@
-require 'RMagick'
-require 'rubygems'
-include Magick
-
-
 class IconsController < ApplicationController
 
   caches_page :index, :new
@@ -21,18 +16,16 @@ class IconsController < ApplicationController
   # GET /icons/1
   # GET /icons/1.json
   def show
-    @icon = Icon.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @icon }
-    end
+      image_url = generate_image("#" + params[:color])
+      response.headers['Content-Type'] = 'image/gif'
+      response.headers['Content-Disposition'] = 'inline'
+      render :text => open(image_url).read        
+      
   end
 
   # GET /icons/new
   # GET /icons/new.json
   def new
-
   end
 
   # GET /icons/1/edit
@@ -82,30 +75,17 @@ class IconsController < ApplicationController
       format.html { redirect_to icons_url }
       format.json { head :ok }
     end
-  end
+  end                                                                   
 
-   def generate_image(color,opacity)
-    file_path = "public/images/icons/"+color+".gif"
-    if FileTest.exists?(file_path)
-      render :text => file_path
-      return file_path
-    else
-      canvas = Magick::ImageList.new
-      canvas.new_image(250,250,Magick::HatchFill.new('white','gray90'))
-      circle = Magick::Draw.new
-      circle.stroke(color)
-      circle.fill_opacity(0)
-      circle.stroke_opacity(opacity)
-      circle.stroke_width(3)
-      circle.stroke_linecap('round')
-      circle.stroke_linejoin('round')
-      circle.ellipse(canvas.rows/2,canvas.columns/2,80,80,0,315)
-      circle.polyline(180,70, 173,78, 190,78, 191,62)
-      circle.draw(canvas)
-      canvas.write file_path
-      canvas.display
-      return file_path
-    end
+   def generate_image(color)          
+     Rails.logger.debug("GENERATING IMAGE")
+    file_path = "public/images/icons/"+color+".png"
+    if !FileTest.exists?(file_path)
+      marker = Magick::Image.read("public/images/icons/marker.png")
+      colored = marker[0].color_floodfill(10, 10, color)     
+      colored.write(file_path)
+    end                     
+    return file_path
  end
 
 end
