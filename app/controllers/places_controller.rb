@@ -16,7 +16,6 @@
 # 
 
 class PlacesController < ApplicationController
-  
   def index
     @places = load_objects_with_subindex(Place)
   end
