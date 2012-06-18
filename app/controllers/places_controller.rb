@@ -57,9 +57,6 @@ class PlacesController < ApplicationController
       render(:action => :edit)
     end
   end
-  def show
-    @place = Place.find(params[:id])
-  end
   def create
     @place = Place.new(params[:place])
     if @place.save
