@@ -14,9 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with ELMO.  If not, see <http://www.gnu.org/licenses/>.
 # 
-require 'rubygems'
-require 'RMagick'
-include Magick
 
 class PlacesController < ApplicationController
   
@@ -93,11 +90,6 @@ class PlacesController < ApplicationController
     @dummy.place_suggestions = Place.lookup(params[:query])
     # render results partial
     render(:partial => "lookup_results", :locals => {:obj => @dummy, :ajax => true})
-  end
-  def generate_image
-      f = Image.new(100,100) { self.background_color = "red" }
-      f.display
-      exit
   end
   private
     def set_add_title
