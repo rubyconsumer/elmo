@@ -9,8 +9,7 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
-
-ActiveRecord::Schema.define(:version => 20120417165959) do
+ActiveRecord::Schema.define(:version => 20120223205639) do
 
   create_table "answers", :force => true do |t|
     t.integer  "response_id"
@@ -128,7 +127,6 @@ ActiveRecord::Schema.define(:version => 20120417165959) do
     t.integer  "locality_id"
     t.integer  "state_id"
     t.integer  "country_id"
-    t.text     "region"
   end
 
   create_table "question_types", :force => true do |t|
