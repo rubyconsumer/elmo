@@ -2,11 +2,6 @@ class IconsController < ApplicationController
 
   caches_page :index, :new
 
-  # GET /icons
-  # GET /icons.json
-
-  # GET /icons/1
-  # GET /icons/1.json
   def show
       image_url = generate_image("#" + params[:color])
       response.headers['Content-Type'] = 'image/gif'
