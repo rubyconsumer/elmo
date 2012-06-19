@@ -1,14 +1,15 @@
 class IconsController < ApplicationController
 
-  caches_page :index, :new
-
   def show
-      image_url = Icon.generate("#" + params[:color])
-      response.headers['Content-Type'] = 'image/gif'
-      response.headers['Content-Disposition'] = 'inline'
-      render :text => open(image_url).read        
-      
+    # generate (or locate in the cache) the image and get its path
+    image_url = Icon.generate("#" + params[:color])
+    
+    # set content types for direct image download
+    response.headers['Content-Type'] = 'image/png'
+    response.headers['Content-Disposition'] = 'inline'
+    
+    # render the binary contents of the image
+    render :text => open(image_url).read
   end
-
 
 end
