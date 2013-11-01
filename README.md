@@ -1,68 +1,86 @@
 # ELMO
-ELMO is a mobile data collection and analysis web application. Originally designed for the [Carter Center](http://www.cartercenter.org) for election observation missions, ELMO can be used in many different contexts for data collection missions.
+ELMO is a mobile data collection and analysis web application. Originally designed for the [Carter Center](http://www.cartercenter.org) for election observation missions, ELMO can be used in many different contexts for data collection.
 
 Consider ELMO if you need:
 
-- Highly customizable and standardized forms
-- User and mission management
-- Sophisticated, real time reporting
+- Integrated form design
+- Standardized form sets
+- Multiple data entry paths, including web, ODK Collect, and SMS
+- Multiple mission/project management
+- Advanced user management with multiple permission levels
+- SMS broadcasting
+- Custom, real-time reporting
 
-To learn more about the history and goals of the project, [visit the ELMO project site](http://elmo-site.sassafrastech.com)
-You can also learn more about The Carter Center's Election Standards [here](http://cartercenter.org)
+To learn more about the history and goals of the project, [visit the ELMO project site](http://getelmo.org).
+You can also learn more about The Carter Center's Election Standards [here](http://cartercenter.org).
 
-## How Do I Install ELMO ?
+## How Do I Install ELMO?
 
-In the future, we hope to offer managed instances of ELMO. In the meantime, you can follow these instructions to install your own instance of ELMO.
+In future, we plan to offer managed instances of ELMO. 
+
+For an easy production setup, PaaS providers like [Heroku](http://heroku.com) or [Engine Yard](http://engineyard.com) would work well for ELMO.
+
+Or to setup an instance manually for development or production use, you can follow the instructions below.
+
+Note that manually setting up a Rails application for production use can be a complicated process, and the best practices for doing so change regularly. Your best bet is a web search for something like 'deploying rails app to ubuntu'.
 
 ### Package Managers
 
-Note to install the following software we recommend the following package managers:
+Note to install the software below we recommend the following package managers:
 
 - Mac OS X: MacPorts or Homebrew
-- Linux/Ubuntu: dpkg or bundled package manager
+- Linux/Unix: bundled package manager (e.g. apt-get, yum)
 - Windows: Npackd
 
 ### Required Software
 
 1. **Ruby 1.9.3+**
 
-2. **Memcached**
+1. **Memcached**
 	- A good resource on how to install on a Mac is [here](http://www.jroller.com/JamesGoodwill/entry/installing_and_configuring_memcached)
-	- Ensure memcached is running.
+	- Ensure memcached is running, even for development, since caching is enabled in development and production environments.
 
-3. **MySQL 5.0+**
+1. **MySQL 5.0+**
 	- Create an empty database and accompanying user for use by the app (E.g. development database *elmo_d* with username *elmo*)
 
-4. **Retrieve project files using Git**
+1. **Web Server**
+	- If your instance is for development only, you can use Rails' built-in web server by running `rails s`, as discussed below.
+	- If your instance is for production use, you will need a production-grade web server, such as nginx or Apache, and app server, such as Passenger, Unicorn, Thin, etc.
+
+### Running the App
+
+1. **Retrieve project files using Git**
 	
   ```
   git clone https://github.com/thecartercenter/elmo.git
   ```
 
-### Configure
-1. **Bundle, configure, and migrate**
-	- Install the required gems by running *bundle install* in the project directory
-	- Copy config/database.yml.example to config/database.yml and edit database.yml to point to your database.
-	- Copy config/initializers/local_config.rb.example to config/initializers/local_config.rb and adjust any settings.
-	- Run database migrations: *rake db:migrate*
-	- Create an admin account: *rake db:create_admin*
-	- Start the server using: *rails s*
+1. **Bundle, configure, and migrate**.
+	- Install the required gems by running `bundle install` in the project directory.
+	- Copy `config/database.yml.example` to `config/database.yml` and edit `database.yml` to point to your database.
+	- Copy `config/initializers/local_config.rb.example` to `config/initializers/local_config.rb` and adjust any settings.
+	- Run database migrations: `rake db:migrate`.
+	- Create an admin account: `rake db:create_admin`.
+	
+1. **Start the server**
+	- For a development setup, just run `rails s`.
+	- For a production setup, this will depend on your choice of servers, process monitors, etc., and goes beyond the scope of this document.
 
-5. **Login**
-	- Navigate to http://localhost:3000 or specified port
-	- Login using *admin/testtest* (make sure to change the password)
+1. **Login**
+	- Navigate to the app's URL (http://localhost:3000 by default in a development setup).
+	- Login using username **admin** and password **temptemp** (make sure to change the password).
 	- Create a new Mission and get started making forms!
 
 
-
 ## How Do I Contribute to ELMO?
-ELMO is **100% open-source**. We would like you to be part of the ELMO community! We accept and encourage contributions from the public.
+ELMO is 100% open-source. We would like you to be part of the ELMO community! We accept and encourage contributions from the public.
 
-### Reporting Bugs
+### Reporting Bugs and Requesting Features
 
-### Requesting New Features
+Please use our Redmine instance at http://redmine.sassafras.coop/projects/elmo. Bugs/feature requests can be reported anonymously.
 
 ### Contributing
+
 1. **Clone the Repo**
 
   ```
@@ -73,7 +91,7 @@ ELMO is **100% open-source**. We would like you to be part of the ELMO community
   
   ```
 	cd elmo
-	git checkout -b new_elmo_branch
+	git checkout -b my_new_branch
   ```
 
 3. **Code**
@@ -81,27 +99,9 @@ ELMO is **100% open-source**. We would like you to be part of the ELMO community
 	* Include tests and make sure they pass
 
 4. **Commit**
-	- If you have several commits, please make sure that they are **squashed** into one commit.
-
-  ```
-  git remote add upstream https://github.com/thecartercenter/elmo.git
-  git fetch upstream
-  git checkout new_elmo_branch
-  git rebase upstream/master
-  git rebase -i
-  < Choose 'squash' for all of your commits except the first one. >
-  < Edit the commit message to make sense and describe all your changes. >
-  git push origin new_elmo_branch -f
-  ```
-
-  Now you can commit:
-
-  ```
-  git commit -a
-  ```
-
-  **NEVER leave the commit message blank!** Provide a detailed, clear, and complete description of your commit!
-
+	- **NEVER leave the commit message blank!** Provide a detailed, clear, and complete description of your commit!
+  - If you have several commits, please make sure that they are **squashed** into one commit with a good summarizing commit message before pushing.
+   
 5. **Update Your Branch**
 
   ```
@@ -135,12 +135,6 @@ ELMO is **100% open-source**. We would like you to be part of the ELMO community
 
   The ELMO team may request changes to your code. Learning and communication is part of the open source process!
 
+## Acknowledgements
 
-
-
-
-
-
-
-
-
+Parts of this document are based on the [Discourse Project](http://discourse.org) contribution guide at https://github.com/discourse/discourse/blob/master/CONTRIBUTING.md.
