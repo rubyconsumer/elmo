@@ -16,7 +16,7 @@ You can also learn more about The Carter Center's Election Standards [here](http
 
 ## How Do I Install ELMO?
 
-In future, we plan to offer managed instances of ELMO. 
+In the future, we plan to offer managed instances of ELMO. 
 
 For an easy production setup, PaaS providers like [Heroku](http://heroku.com) or [Engine Yard](http://engineyard.com) would work well for ELMO.
 
@@ -55,7 +55,7 @@ Note to install the software below we recommend the following package managers:
   git clone https://github.com/thecartercenter/elmo.git
   ```
 
-1. **Bundle, configure, and migrate**.
+1. **Bundle, configure, and migrate**
 	- Install the required gems by running `bundle install` in the project directory.
 	- Copy `config/database.yml.example` to `config/database.yml` and edit `database.yml` to point to your database.
 	- Copy `config/initializers/local_config.rb.example` to `config/initializers/local_config.rb` and adjust any settings.
